@@ -95,8 +95,10 @@ end)
 
 ---------------
 
+
 6. Change any of the functions to suit your needs or systems
-7. Enjoy
+7. Copy the item icons into your inventory images if you do not already have them
+8. Enjoy
 
 
 ----USAGE----
