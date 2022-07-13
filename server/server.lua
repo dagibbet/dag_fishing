@@ -72,9 +72,9 @@ Citizen.CreateThread(function()
         exports['qbr-core']:CreateUseableItem(item, function(source, item)
     		local UsableBait = item
 			local _source = source
-			local User = exports['qbr-core']:GetPlayer(_source)
-			User.Functions.RemoveItem(UsableBait, 1, item.slot)    		
-    		TriggerClientEvent("dag_fishing:UseBait", source, UsableBait.name)
+			local User = exports['qbr-core']:GetPlayer(_source)			
+			--User.Functions.RemoveItem(item.name, 1, item.slot)    		
+    		TriggerClientEvent("dag_fishing:UseBait", source, item)
 
         end)
     end
@@ -89,6 +89,13 @@ Citizen.CreateThread(function()
         end)
     end
 	
+end)
+
+RegisterServerEvent('dag_fishing:RemoveBaitItem')
+AddEventHandler('dag_fishing:RemoveBaitItem', function(item)
+	local _source = source
+	local User = exports['qbr-core']:GetPlayer(_source)
+	User.Functions.RemoveItem(item.name, 1, item.slot)   
 end)
 
 RegisterServerEvent('dag_fishing:FishToInventory')

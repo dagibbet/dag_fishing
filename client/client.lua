@@ -56,14 +56,27 @@ local fishs = {
 
 RegisterNetEvent("dag_fishing:UseBait")
 AddEventHandler("dag_fishing:UseBait", function(UsableBait)
-Citizen.CreateThread(function()
+	Citizen.CreateThread(function()
         Citizen.InvokeNative(0x1096603B519C905F, "MMFSH")
 		prepareMyPrompt()    
 		fishing = true
 		local sleep = 1500
-		local currentLure = UsableBait
-		UsableBait = nil
+		local currentLure = UsableBait.name
+		
 		ready = false
+		local IsCarryPole = Citizen.InvokeNative(0xF29A186ED428B552, PlayerPedId(), `weapon_fighingrod`)
+		local CurrentWeaponObject = Citizen.InvokeNative(0x6CA484C9A7377E4F, PlayerPedId(), true)
+		local weaponInHand = GetCurrentPedWeaponEntityIndex(PlayerPedId(),0)
+		local fishrodmodel = Citizen.InvokeNative(0xF70825EB340E7D15, `weapon_fishingrod`)
+		local weapon = Citizen.InvokeNative(0x8425C5F057012DAB, PlayerPedId())
+		local weaponName = Citizen.InvokeNative(0x89CF5FF3D363311E, weapon, Citizen.ResultAsString())
+		--print(weaponInHand, weaponName)
+		if weaponName ~= "WEAPON_FISHINGROD" and weaponInHand == 0 then
+			exports['qbr-core']:Notify(9, 'You need to use a fishing rod first.', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+			return
+		end
+		--print("has fishrod")
+		TriggerServerEvent('dag_fishing:RemoveBaitItem', UsableBait)
         while fishing do
 			Citizen.Wait(0)
             GET_TASK_FISHING_DATA()
